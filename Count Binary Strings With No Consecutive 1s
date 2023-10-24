@@ -1,0 +1,37 @@
+Given an integer N. Your task is to find the number of binary strings of length N having no consecutive 1s.
+As the number can be large, return the answer modulo 10^9+7.
+
+Example 1:
+
+Input:
+N = 3
+Output:
+5
+Explanation:
+All the binary strings of length 3 having
+no consecutive 1s are "000", "001", "101",
+"100" and "010".
+
+
+
+def countBinaryStrings(N):
+    if N == 1:
+        return 2  # "0" and "1" are valid
+    if N == 2:
+        return 3  # "00", "01", "10" are valid
+
+    mod = 10**9 + 7
+    ending_with_zero = 1  # Number of valid strings ending with 0
+    ending_with_one = 1   # Number of valid strings ending with 1
+
+    for i in range(2, N + 1):
+        new_ending_with_zero = (ending_with_zero + ending_with_one) % mod
+        new_ending_with_one = ending_with_zero
+        ending_with_zero, ending_with_one = new_ending_with_zero, new_ending_with_one
+
+    return (ending_with_zero + ending_with_one) % mod
+
+# Example usage:
+N = 3
+result = countBinaryStrings(N)
+print(result)  # Output: 5
